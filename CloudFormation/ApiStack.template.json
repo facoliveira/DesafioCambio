@@ -1,0 +1,94 @@
+{
+  "Resources": {
+    "httpapiE8E4C45A": {
+      "Type": "AWS::ApiGatewayV2::Api",
+      "Properties": {
+        "Name": "http-api",
+        "ProtocolType": "HTTP"
+      },
+      "Metadata": {
+        "aws:cdk:path": "ApiStack/http-api/Resource"
+      }
+    },
+    "httpapiDefaultStage7AF19DCA": {
+      "Type": "AWS::ApiGatewayV2::Stage",
+      "Properties": {
+        "ApiId": {
+          "Ref": "httpapiE8E4C45A"
+        },
+        "StageName": "$default",
+        "AutoDeploy": true
+      },
+      "Metadata": {
+        "aws:cdk:path": "ApiStack/http-api/DefaultStage/Resource"
+      }
+    },
+    "HttpApiGatewayIntegration": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "httpapiE8E4C45A"
+        },
+        "IntegrationType": "HTTP_PROXY",
+        "ConnectionId": {
+          "Fn::ImportValue": "BackendStack:ExportsOutputRefVpcLinkEC884E47"
+        },
+        "ConnectionType": "VPC_LINK",
+        "Description": "API Integration",
+        "IntegrationMethod": "ANY",
+        "IntegrationUri": {
+          "Fn::ImportValue": "BackendStack:ExportsOutputRefApiInternalALBApiListener470788D441DD92F3"
+        },
+        "PayloadFormatVersion": "1.0"
+      },
+      "Metadata": {
+        "aws:cdk:path": "ApiStack/HttpApiGatewayIntegration"
+      }
+    },
+    "Route": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "httpapiE8E4C45A"
+        },
+        "RouteKey": "ANY /{proxy+}",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "HttpApiGatewayIntegration"
+              }
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ApiStack/Route"
+      }
+    },
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Analytics": "v2:deflate64:H4sIAAAAAAAACj2MTQrCMBBGz9J9Om1EXCvd6LaeYEjHMC0mJZm0SMjdNQquvh8eT4PuNfTNGffYmmnpsvGBIN8FzaIG76KEZEQNDzdS9CkYKqqyuLJFoR1f2wHyVWS9rFyxGnV+DJbq8S83J2QDCnv39fkkVIpyfiKYY7fpI+gT6GaOzG1ITvhJMP7yDTvH8NyoAAAA"
+      },
+      "Metadata": {
+        "aws:cdk:path": "ApiStack/CDKMetadata/Default"
+      }
+    }
+  },
+  "Outputs": {
+    "ExportsOutputFnGetAtthttpapiE8E4C45AApiEndpoint562207E2": {
+      "Value": {
+        "Fn::GetAtt": [
+          "httpapiE8E4C45A",
+          "ApiEndpoint"
+        ]
+      },
+      "Export": {
+        "Name": "ApiStack:ExportsOutputFnGetAtthttpapiE8E4C45AApiEndpoint562207E2"
+      }
+    }
+  }
+}

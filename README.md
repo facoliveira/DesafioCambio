@@ -78,9 +78,31 @@ docker run -p 3000:80 desafiocambio-backend:latest
 ```
 O __frontend__ está disponível em `http://localhost/` enquanto a __API__ estará em `http://localhost:3000/`.
 
-### Swagger
+### Docker Hub
+
+As imagens do docker hub podem ser acessadas usando `facoliveira/desafiocambio-frontend:latest` para o frontend e `facoliveira/desafiocambio-backend:latest` para o backend.
+
+## Swagger
 
 O swagger está disponível quando executado localmente ou através do docker compose. Podendo ser acessado pela mesma url da API `/swagger`. Ex: `http://localhost:3000/swagger`, para o docker.
+
+## AWS
+
+A infraestrutura criada pela aplicação é a seguinte:
+
+![Cotação](./imagens/aws.jpg)
+
+### CloudFormation
+
+A infraestrutura do AWS pode ser montada atráves do CloudFormation usando tanto o cdk, quanto os arquivos dentro da pasta CloudFormation.
+
+Os stacks precisam ser criados na seguinte orderm:
+
+1. BackendStack (BackendStack.template.json)
+2. ApiStack (ApiStack.template.json)
+3. FrontendStack (FrontendStack.template.json)
+
+> :warning: **Se for usar o CloudFormatuon manualmente**: Aguarde a criação de um stack terminar antes de tentar criar outro!
 
 ## Telas
 
@@ -88,13 +110,13 @@ O swagger está disponível quando executado localmente ou através do docker co
 ![Cotação](./imagens/telas-cotacao.png)
 
 ### Moedas
-![Cotação](./imagens/telas-moedas.png)
+![Moedas](./imagens/telas-moedas.png)
 
 ### Cadastrar Moedas
-![Cotação](./imagens/telas-cadastrar-moeda.png)
+![Cadastrar Moedas](./imagens/telas-cadastrar-moeda.png)
 
 ### Segmentos
-![Cotação](./imagens/telas-segmentos.png)
+![Segmentos](./imagens/telas-segmentos.png)
 
 ### Cadastrar Segmentos
-![Cotação](./imagens/telas-cadastrar-segmento.png)
+![Cadastrar Segmentos](./imagens/telas-cadastrar-segmento.png)

@@ -1,0 +1,862 @@
+{
+  "Resources": {
+    "FrontendVpc615C0D99": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/Resource"
+      }
+    },
+    "FrontendVpcPublicSubnet1Subnet6472E8FD": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/18",
+        "VpcId": {
+          "Ref": "FrontendVpc615C0D99"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          },
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PublicSubnet1/Subnet"
+      }
+    },
+    "FrontendVpcPublicSubnet1RouteTableBC3C2F89": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "FrontendVpc615C0D99"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PublicSubnet1/RouteTable"
+      }
+    },
+    "FrontendVpcPublicSubnet1RouteTableAssociationE8B0382B": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "FrontendVpcPublicSubnet1RouteTableBC3C2F89"
+        },
+        "SubnetId": {
+          "Ref": "FrontendVpcPublicSubnet1Subnet6472E8FD"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PublicSubnet1/RouteTableAssociation"
+      }
+    },
+    "FrontendVpcPublicSubnet1DefaultRoute46A2B85A": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "FrontendVpcPublicSubnet1RouteTableBC3C2F89"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "FrontendVpcIGW0B246797"
+        }
+      },
+      "DependsOn": [
+        "FrontendVpcVPCGW061A5EA4"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PublicSubnet1/DefaultRoute"
+      }
+    },
+    "FrontendVpcPublicSubnet1EIP1F108C0D": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PublicSubnet1/EIP"
+      }
+    },
+    "FrontendVpcPublicSubnet1NATGatewayBB0898A2": {
+      "Type": "AWS::EC2::NatGateway",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "FrontendVpcPublicSubnet1EIP1F108C0D",
+            "AllocationId"
+          ]
+        },
+        "SubnetId": {
+          "Ref": "FrontendVpcPublicSubnet1Subnet6472E8FD"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PublicSubnet1/NATGateway"
+      }
+    },
+    "FrontendVpcPublicSubnet2SubnetBED1730E": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.64.0/18",
+        "VpcId": {
+          "Ref": "FrontendVpc615C0D99"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          },
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PublicSubnet2/Subnet"
+      }
+    },
+    "FrontendVpcPublicSubnet2RouteTable5724654B": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "FrontendVpc615C0D99"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PublicSubnet2/RouteTable"
+      }
+    },
+    "FrontendVpcPublicSubnet2RouteTableAssociationFA00D50C": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "FrontendVpcPublicSubnet2RouteTable5724654B"
+        },
+        "SubnetId": {
+          "Ref": "FrontendVpcPublicSubnet2SubnetBED1730E"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PublicSubnet2/RouteTableAssociation"
+      }
+    },
+    "FrontendVpcPublicSubnet2DefaultRouteA77B3E45": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "FrontendVpcPublicSubnet2RouteTable5724654B"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "FrontendVpcIGW0B246797"
+        }
+      },
+      "DependsOn": [
+        "FrontendVpcVPCGW061A5EA4"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PublicSubnet2/DefaultRoute"
+      }
+    },
+    "FrontendVpcPublicSubnet2EIP6A7BB4A0": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PublicSubnet2/EIP"
+      }
+    },
+    "FrontendVpcPublicSubnet2NATGatewayCCE5BE21": {
+      "Type": "AWS::EC2::NatGateway",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "FrontendVpcPublicSubnet2EIP6A7BB4A0",
+            "AllocationId"
+          ]
+        },
+        "SubnetId": {
+          "Ref": "FrontendVpcPublicSubnet2SubnetBED1730E"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PublicSubnet2/NATGateway"
+      }
+    },
+    "FrontendVpcPrivateSubnet1Subnet1494CF9A": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.128.0/18",
+        "VpcId": {
+          "Ref": "FrontendVpc615C0D99"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private"
+          },
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc/PrivateSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PrivateSubnet1/Subnet"
+      }
+    },
+    "FrontendVpcPrivateSubnet1RouteTable353BD94D": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "FrontendVpc615C0D99"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc/PrivateSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PrivateSubnet1/RouteTable"
+      }
+    },
+    "FrontendVpcPrivateSubnet1RouteTableAssociation39143631": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "FrontendVpcPrivateSubnet1RouteTable353BD94D"
+        },
+        "SubnetId": {
+          "Ref": "FrontendVpcPrivateSubnet1Subnet1494CF9A"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PrivateSubnet1/RouteTableAssociation"
+      }
+    },
+    "FrontendVpcPrivateSubnet1DefaultRoute3DFC42EB": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "FrontendVpcPrivateSubnet1RouteTable353BD94D"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "FrontendVpcPublicSubnet1NATGatewayBB0898A2"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PrivateSubnet1/DefaultRoute"
+      }
+    },
+    "FrontendVpcPrivateSubnet2Subnet26C84130": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.192.0/18",
+        "VpcId": {
+          "Ref": "FrontendVpc615C0D99"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private"
+          },
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc/PrivateSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PrivateSubnet2/Subnet"
+      }
+    },
+    "FrontendVpcPrivateSubnet2RouteTable675A06A8": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "FrontendVpc615C0D99"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc/PrivateSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PrivateSubnet2/RouteTable"
+      }
+    },
+    "FrontendVpcPrivateSubnet2RouteTableAssociation3113D3A2": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "FrontendVpcPrivateSubnet2RouteTable675A06A8"
+        },
+        "SubnetId": {
+          "Ref": "FrontendVpcPrivateSubnet2Subnet26C84130"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PrivateSubnet2/RouteTableAssociation"
+      }
+    },
+    "FrontendVpcPrivateSubnet2DefaultRouteB0251293": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "FrontendVpcPrivateSubnet2RouteTable675A06A8"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "FrontendVpcPublicSubnet2NATGatewayCCE5BE21"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/PrivateSubnet2/DefaultRoute"
+      }
+    },
+    "FrontendVpcIGW0B246797": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "FrontendStack/FrontendVpc"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/IGW"
+      }
+    },
+    "FrontendVpcVPCGW061A5EA4": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "FrontendVpc615C0D99"
+        },
+        "InternetGatewayId": {
+          "Ref": "FrontendVpcIGW0B246797"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendVpc/VPCGW"
+      }
+    },
+    "FrontendCluster268760AC": {
+      "Type": "AWS::ECS::Cluster",
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendCluster/Resource"
+      }
+    },
+    "FrontendServiceLBC4FCC036": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "LoadBalancerAttributes": [
+          {
+            "Key": "deletion_protection.enabled",
+            "Value": "false"
+          }
+        ],
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "FrontendServiceLBSecurityGroup83DC324B",
+              "GroupId"
+            ]
+          }
+        ],
+        "Subnets": [
+          {
+            "Ref": "FrontendVpcPublicSubnet1Subnet6472E8FD"
+          },
+          {
+            "Ref": "FrontendVpcPublicSubnet2SubnetBED1730E"
+          }
+        ],
+        "Type": "application"
+      },
+      "DependsOn": [
+        "FrontendVpcPublicSubnet1DefaultRoute46A2B85A",
+        "FrontendVpcPublicSubnet2DefaultRouteA77B3E45"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/LB/Resource"
+      }
+    },
+    "FrontendServiceLBSecurityGroup83DC324B": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Automatically created Security Group for ELB FrontendStackFrontendServiceLBF2DC5ADF",
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 80",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80
+          }
+        ],
+        "VpcId": {
+          "Ref": "FrontendVpc615C0D99"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/LB/SecurityGroup/Resource"
+      }
+    },
+    "FrontendServiceLBSecurityGrouptoFrontendStackFrontendServiceSecurityGroup433110B5809931CB46": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Fn::GetAtt": [
+            "FrontendServiceLBSecurityGroup83DC324B",
+            "GroupId"
+          ]
+        },
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
+            "FrontendServiceSecurityGroupFD135B1B",
+            "GroupId"
+          ]
+        },
+        "FromPort": 80,
+        "ToPort": 80
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/LB/SecurityGroup/to FrontendStackFrontendServiceSecurityGroup433110B5:80"
+      }
+    },
+    "FrontendServiceLBPublicListener50DF6FDC": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "FrontendServiceLBPublicListenerECSGroup56B2E0A8"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "FrontendServiceLBC4FCC036"
+        },
+        "Port": 80,
+        "Protocol": "HTTP"
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/LB/PublicListener/Resource"
+      }
+    },
+    "FrontendServiceLBPublicListenerECSGroup56B2E0A8": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "VpcId": {
+          "Ref": "FrontendVpc615C0D99"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/LB/PublicListener/ECSGroup/Resource"
+      }
+    },
+    "FrontendServiceTaskDefTaskRoleA8543F35": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/TaskDef/TaskRole/Resource"
+      }
+    },
+    "FrontendServiceTaskDefEAA44C4A": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "API_URL",
+                "Value": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::ImportValue": "ApiStack:ExportsOutputFnGetAtthttpapiE8E4C45AApiEndpoint562207E2"
+                      },
+                      "/api/"
+                    ]
+                  ]
+                }
+              },
+              {
+                "Name": "PRODUCTION",
+                "Value": "true"
+              }
+            ],
+            "Essential": true,
+            "Image": "facoliveira/desafiocambio-frontend:latest",
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "FrontendServiceTaskDefwebLogGroupC78F9B2E"
+                },
+                "awslogs-stream-prefix": "FrontendService",
+                "awslogs-region": "sa-east-1"
+              }
+            },
+            "Name": "web",
+            "PortMappings": [
+              {
+                "ContainerPort": 80,
+                "Protocol": "tcp"
+              }
+            ]
+          }
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "FrontendServiceTaskDefExecutionRole65651D55",
+            "Arn"
+          ]
+        },
+        "Family": "FrontendStackFrontendServiceTaskDefA53BCECC",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE"
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FrontendServiceTaskDefTaskRoleA8543F35",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/TaskDef/Resource"
+      }
+    },
+    "FrontendServiceTaskDefwebLogGroupC78F9B2E": {
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/TaskDef/web/LogGroup/Resource"
+      }
+    },
+    "FrontendServiceTaskDefExecutionRole65651D55": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/TaskDef/ExecutionRole/Resource"
+      }
+    },
+    "FrontendServiceTaskDefExecutionRoleDefaultPolicyBD97DD25": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "FrontendServiceTaskDefwebLogGroupC78F9B2E",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "FrontendServiceTaskDefExecutionRoleDefaultPolicyBD97DD25",
+        "Roles": [
+          {
+            "Ref": "FrontendServiceTaskDefExecutionRole65651D55"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/TaskDef/ExecutionRole/DefaultPolicy/Resource"
+      }
+    },
+    "FrontendService31F14A33": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "Cluster": {
+          "Ref": "FrontendCluster268760AC"
+        },
+        "DeploymentConfiguration": {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LaunchType": "FARGATE",
+        "LoadBalancers": [
+          {
+            "ContainerName": "web",
+            "ContainerPort": 80,
+            "TargetGroupArn": {
+              "Ref": "FrontendServiceLBPublicListenerECSGroup56B2E0A8"
+            }
+          }
+        ],
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "FrontendServiceSecurityGroupFD135B1B",
+                  "GroupId"
+                ]
+              }
+            ],
+            "Subnets": [
+              {
+                "Ref": "FrontendVpcPrivateSubnet1Subnet1494CF9A"
+              },
+              {
+                "Ref": "FrontendVpcPrivateSubnet2Subnet26C84130"
+              }
+            ]
+          }
+        },
+        "TaskDefinition": {
+          "Ref": "FrontendServiceTaskDefEAA44C4A"
+        }
+      },
+      "DependsOn": [
+        "FrontendServiceLBPublicListenerECSGroup56B2E0A8",
+        "FrontendServiceLBPublicListener50DF6FDC"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/Service/Service"
+      }
+    },
+    "FrontendServiceSecurityGroupFD135B1B": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "FrontendStack/FrontendService/Service/SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "VpcId": {
+          "Ref": "FrontendVpc615C0D99"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/Service/SecurityGroup/Resource"
+      }
+    },
+    "FrontendServiceSecurityGroupfromFrontendStackFrontendServiceLBSecurityGroup9F82D3EE80DA2DC6C5": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "FromPort": 80,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "FrontendServiceSecurityGroupFD135B1B",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "FrontendServiceLBSecurityGroup83DC324B",
+            "GroupId"
+          ]
+        },
+        "ToPort": 80
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/FrontendService/Service/SecurityGroup/from FrontendStackFrontendServiceLBSecurityGroup9F82D3EE:80"
+      }
+    },
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Analytics": "v2:deflate64:H4sIAAAAAAAACn1RwW6DMAz9lt7TtEzTzuvYVlWqNgRV7yG4LC1NUOJQVYh/XwhQWDft5Ofn5zjPDmiwDOhy9swuZs6z06LmSgOtE2T8RGIwymoOJDzIT4ulRRIqaVBbji031BvSttfAH2i9L3lb2kchiWxaCJ7YVIKXjyhWFmHH0gJGfuRWxiguGAolb+IWvG2iNnwwXDOEC7uSSIvKwfHhjUTQDg+C7id9tkLn6usMEkkC3GqB17VWtvR/+Jd4yzUY84veSM83BLihdVhY46a3qgG+M52z1pU5vcJBSDF4umeURCYk6AnX9yagK9GdoId+3Lxk2Fo1dFWWbst+W1vFshdWMMkhu2uHghkUvHCK1CuEzCt3rr+7vYkf+VQnnDfZawY8qe/cZHeBYZGTtCGCnWkdq+7uPkbK9flDdaghhcrdNrcqvz0x4KZpiFQZ0KNZVMEjDZ5oMDsaIebaShRnoHEXvwEGLs0G1wIAAA=="
+      },
+      "Metadata": {
+        "aws:cdk:path": "FrontendStack/CDKMetadata/Default"
+      }
+    }
+  },
+  "Outputs": {
+    "FrontendServiceLoadBalancerDNSAA892DED": {
+      "Value": {
+        "Fn::GetAtt": [
+          "FrontendServiceLBC4FCC036",
+          "DNSName"
+        ]
+      }
+    },
+    "FrontendServiceServiceURL94B0BA88": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "http://",
+            {
+              "Fn::GetAtt": [
+                "FrontendServiceLBC4FCC036",
+                "DNSName"
+              ]
+            }
+          ]
+        ]
+      }
+    }
+  }
+}
