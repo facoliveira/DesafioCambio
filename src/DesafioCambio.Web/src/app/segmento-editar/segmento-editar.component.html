@@ -1,0 +1,34 @@
+<div>
+    <h3 class="fw-bold">
+        Editar Segmento
+    </h3>
+    <br>
+    <div class="row">
+        <div class="col-md-8 ">
+            <form class = "mb-4" [formGroup]="editarForm" (ngSubmit)="onSubmit()">
+                <div class="form-group mb-3">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" class="form-control"  formControlName="nome" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="taxa" class="form-label">Taxa</label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" min="0.01" class="form-control"  formControlName="taxa" required>
+                        <div class="input-group-append">
+                          <span class="input-group-text">%</span>
+                        </div>
+                      </div>
+                </div>
+                <button type="submit" class="btn mt-3 btn-primary">Cadastrar</button>
+                <button type="submit" class="btn mt-3 ms-3 btn-secondary" [routerLink]="['/segmentos']">Voltar</button>
+            </form>
+            <div [hidden]="!mensagem" class="alert alert-success" role="alert">
+                <h3>{{ mensagem }}</h3>
+            </div>
+            <div [hidden]="!erro" class="alert alert-danger" role="alert">
+                <h6>Ops</h6>
+                <h5>{{ erro }}</h5>
+            </div>
+        </div>
+    </div>
+</div>

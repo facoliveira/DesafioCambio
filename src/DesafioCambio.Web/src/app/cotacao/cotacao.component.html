@@ -1,0 +1,46 @@
+<div>
+    <h3 class="fw-bold">
+        Cotação
+    </h3>
+    <br>
+    <div class="row">
+        <div class="col-md-8 ">
+            <form class = "mb-4" [formGroup]="cotacaoForm" (ngSubmit)="onSubmit()">
+                <div class="form-group mb-3">
+                    <label for="moeda" class="form-label">Moeda</label>
+                    <select class="form-select" formControlName="moeda" required>
+                        <option *ngFor="let moeda of moedas" [value]="moeda.id">
+                            {{moeda.nome}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="segmento" class="form-label">Segmento</label>
+                    <select class="form-select" formControlName="segmento" required>
+                        <option *ngFor="let segmento of segmentos" [value]="segmento.id">
+                            {{segmento.nome}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="quantidade" class="form-label">Quantidade</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">R$</span>
+                        </div>
+                        <input type="number" step="0.01" min="0.01" class="form-control"  formControlName="quantidade" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn mt-3 btn-primary">Cotar</button>
+            </form>
+            <div [hidden]="!cotacao" class="alert alert-success" role="alert">
+                <h6>O valor da cotação é:</h6>
+                <h3>{{ cotacao | currency:'BRL'}}</h3>
+            </div>
+            <div [hidden]="!erro" class="alert alert-danger" role="alert">
+                <h6>Ops</h6>
+                <h5>{{ erro }}</h5>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div>
+    <h3 class="fw-bold">
+        Segmentos
+    </h3>
+    <br>
+    <div class="row">
+        <div class="col-md-10 ">
+            <div class="mb-3">
+                <button type="button" class="btn btn-primary" [routerLink]="['/segmentos/cadastrar']">Adicionar segmento</button>
+            </div>
+            <table [hidden]="!segmentos" class="table">
+                <thead>
+                    <tr>        
+                        <th scope="col">Nome</th>
+                        <th scope="col">Taxa</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let segmento of segmentos">
+                        <td>{{segmento.nome}}</td>
+                        <td>{{segmento.taxa | percent}}</td>
+                        <td>
+                            <button type="button" class="btn btn-link" [routerLink]="['/segmentos/editar/', segmento.id]">Editar</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-link" (click)="excluir(segmento.id)">Excluir</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div [hidden]="!erro" class="alert alert-danger" role="alert">
+                <h6>Ops</h6>
+                <h5>{{ erro }}</h5>
+            </div>
+        </div>
+    </div>
+</div>

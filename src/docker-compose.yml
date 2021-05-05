@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    environment: 
+      - API_URL=http://localhost:3000/api/
+      - PRODUCTION=true
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - desafionetwork
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+      - "3001:443"
+    networks:
+      - desafionetwork
+
+networks:
+  desafionetwork:
+    driver: bridge

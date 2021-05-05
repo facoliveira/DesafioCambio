@@ -1,0 +1,17 @@
+FROM node:alpine AS build
+
+WORKDIR /app
+
+ENV PATH=${PATH}:./node_modules/.bin
+ENV NODE_PATH=/srv/node_modules
+
+COPY ["DesafioCambio.Web/package.json", "DesafioCambio.Web/package-lock.json", "./"]
+RUN npm ci
+RUN ngcc
+COPY ["DesafioCambio.Web", "."]
+RUN ng build --prod --output-path=/dist
+
+FROM nginx:alpine
+COPY ["DesafioCambio.Web/nginx.conf", "/etc/nginx/nginx.conf"]
+COPY --from=build /dist /var/www/html
+CMD ["/bin/sh",  "-c",  "envsubst < /var/www/html/assets/env.template.js > /var/www/html/assets/env.js && exec nginx -g 'daemon off;'"]

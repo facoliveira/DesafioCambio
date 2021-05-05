@@ -1,0 +1,39 @@
+<div>
+    <h3 class="fw-bold">
+        Moedas
+    </h3>
+    <br>
+    <div class="row">
+        <div class="col-md-10 ">
+            <div class="mb-3">
+                <button type="button" class="btn btn-primary" [routerLink]="['/moedas/cadastrar']">Adicionar moeda</button>
+            </div>
+            <table [hidden]="!moedas" class="table">
+                <thead>
+                    <tr>        
+                        <th scope="col">Nome</th>
+                        <th scope="col">Código</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let moeda of moedas">
+                        <td>{{moeda.nome}}</td>
+                        <td>{{moeda.codigo}}</td>
+                        <td>
+                            <button type="button" class="btn btn-link" [routerLink]="['/moedas/editar/', moeda.id]">Editar</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-link" (click)="excluir(moeda.id)">Excluir</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div [hidden]="!erro" class="alert alert-danger" role="alert">
+                <h6>Ops</h6>
+                <h5>{{ erro }}</h5>
+            </div>
+        </div>
+    </div>
+</div>
