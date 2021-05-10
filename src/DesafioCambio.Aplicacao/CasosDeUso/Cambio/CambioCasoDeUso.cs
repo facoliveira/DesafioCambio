@@ -23,15 +23,15 @@ namespace DesafioCambio.Aplicacao.CasoDeUso
 
         public CambioCasoDeUsoSaida Calcular(CambioCasoDeUsoEntrada obj)
         {
-            var cur = moedaRepositorio.Seleciona(obj.MoedaId);
+            var moeda = moedaRepositorio.Seleciona(obj.MoedaId);
 
-            var seg = segmentoRepositorio.Seleciona(obj.SegmentoId);
+            var segmento = segmentoRepositorio.Seleciona(obj.SegmentoId);
 
-            var rate = cambioServico.PegarTaxa(cur.Codigo);
+            var taxa = cambioServico.PegarTaxa(moeda.Codigo);
 
             return new CambioCasoDeUsoSaida
             {
-                Valor = (obj.Quantidade * rate) * (1 + seg.Taxa)
+                Valor = (obj.Quantidade * taxa) * (1 + segmento.Taxa)
             };
         }
     }

@@ -34,8 +34,8 @@ export class BackendStack extends cdk.Stack {
 
     // Task Definitions
     const serviceTaskDefinition = new ecs.FargateTaskDefinition(this, "BackendServiceTaskDef", {
-      memoryLimitMiB: 512,
-      cpu: 256,
+      memoryLimitMiB: 1024,
+      cpu: 512,
     });
 
     // Docker Image
