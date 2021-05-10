@@ -1,4 +1,5 @@
-﻿using DesafioCambio.Base.Servicos;
+﻿using DesafioCambio.Base.Entidades;
+using DesafioCambio.Base.Servicos;
 using DesafioCambio.Base.Repositorios;
 using DesafioCambio.Base.CasosDeUso.Cambio;
 
@@ -23,12 +24,13 @@ namespace DesafioCambio.Aplicacao.CasoDeUso
 
         public CambioCasoDeUsoSaida Calcular(CambioCasoDeUsoEntrada obj)
         {
-            var moeda = moedaRepositorio.Seleciona(obj.MoedaId);
-
-            var segmento = segmentoRepositorio.Seleciona(obj.SegmentoId);
-
-            var taxa = cambioServico.PegarTaxa(moeda.Codigo);
-
+            Moeda moeda = moedaRepositorio.Seleciona(obj.MoedaId);
+            Segmento segmento = segmentoRepositorio.Seleciona(obj.SegmentoId);
+            if(moeda == null || segmento == null)
+            {
+                throw new System.Exception("Parâmetros incorretos");
+            }
+            double taxa = cambioServico.PegarTaxa(moeda.Codigo);
             return new CambioCasoDeUsoSaida
             {
                 Valor = (obj.Quantidade * taxa) * (1 + segmento.Taxa)

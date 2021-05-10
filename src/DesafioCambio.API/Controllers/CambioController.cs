@@ -1,4 +1,5 @@
-﻿using DesafioCambio.Base.CasosDeUso.Cambio;
+﻿using DesafioCambio.Base.CasosDeUso.Api;
+using DesafioCambio.Base.CasosDeUso.Cambio;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,18 @@ namespace DesafioCambio.API.Controllers
                 SegmentoId = segmentoId,
                 Quantidade = quantidade,
             };
-            CambioCasoDeUsoSaida saida = cambioCasoDeUso.Calcular(entrada);
-            return Ok(saida);
+            try
+            {
+                CambioCasoDeUsoSaida saida = cambioCasoDeUso.Calcular(entrada);
+                return Ok(saida);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiCasoDeUsoSaida.Padrao()
+                {
+                    Mensagem = ex.Message
+                });
+            }
         }
     }
 }
