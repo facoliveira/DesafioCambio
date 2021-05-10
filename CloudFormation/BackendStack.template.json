@@ -510,9 +510,9 @@
             ]
           }
         ],
-        "Cpu": "256",
+        "Cpu": "512",
         "Family": "BackendStackBackendServiceTaskDef500C1A14",
-        "Memory": "512",
+        "Memory": "1024",
         "NetworkMode": "awsvpc",
         "RequiresCompatibilities": [
           "FARGATE"
